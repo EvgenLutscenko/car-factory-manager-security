@@ -1,0 +1,89 @@
+databaseChangeLog:
+  - changeSet:
+      id: 19-46-01-04-2024-create-tables
+      author: Yevhenii Lutscenko
+      changes:
+        - createTable:
+            tableName: factory
+            columns:
+              - column:
+                  name: id
+                  type: bigint
+                  autoIncrement: true
+                  constraints:
+                    nullable: false
+                    primaryKey: true
+              - column:
+                  name: name
+                  type: varchar(64)
+                  constraints:
+                    nullable: false
+                    unique: true
+              - column:
+                  name: location
+                  type: varchar(64)
+                  constraints:
+                    nullable: false
+        - createTable:
+            tableName: users
+            columns:
+              - column:
+                  name: id
+                  type: bigint
+                  autoIncrement: true
+                  constraints:
+                    nullable: false
+                    primaryKey: true
+              - column:
+                  name: username
+                  type: VARCHAR(64)
+                  constraints:
+                    nullable: false
+                    unique: true
+              - column:
+                  name: password
+                  type: VARCHAR(64)
+                  constraints:
+                    nullable: false
+              - column:
+                  name: registration_date
+                  type: timestamp
+                  constraints:
+                    nullable: false
+        - createTable:
+            tableName: car
+            columns:
+              - column:
+                  name: id
+                  type: bigint
+                  autoIncrement: true
+                  constraints:
+                    nullable: false
+                    primaryKey: true
+              - column:
+                  name: model
+                  type: varchar(64)
+                  constraints:
+                    nullable: false
+              - column:
+                  name: factory_id
+                  type: bigint
+                  constraints:
+                    foreignKeyName: factory_id
+              - column:
+                  name: owner_id
+                  type: bigint
+                  constraints:
+                    foreignKeyName: owner_id
+        - addForeignKeyConstraint:
+            baseTableName: car
+            baseColumnNames: factory_id
+            constraintName: factory_id
+            referencedTableName: factory
+            referencedColumnNames: id
+        - addForeignKeyConstraint:
+            baseTableName: car
+            baseColumnNames: owner_id
+            constraintName: owner_id
+            referencedTableName: users
+            referencedColumnNames: id
