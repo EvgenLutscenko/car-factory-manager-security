@@ -5,6 +5,7 @@ import lombok.AllArgsConstructor;
 import org.springframework.web.bind.annotation.*;
 import ua.lutsenko.project.dto.car.CreateCarRequestDto;
 import ua.lutsenko.project.dto.car.CarResponseDto;
+import ua.lutsenko.project.security.SecurityContextHolder;
 import ua.lutsenko.project.service.CarService;
 
 import java.util.List;
@@ -26,6 +27,7 @@ public class CarsController {
 
     @GetMapping
     public List<CarResponseDto> findAll(){
-        return carService.findAll();
+        String username = (String) SecurityContextHolder.getSecurityContext().getAuthentication().getPrincipals();
+        return carService.findAll(username);
     }
 }

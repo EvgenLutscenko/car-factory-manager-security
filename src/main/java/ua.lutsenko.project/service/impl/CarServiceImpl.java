@@ -52,8 +52,16 @@ public class CarServiceImpl implements CarService {
     }
 
     @Override
-    public List<CarResponseDto> findAll() {
-        return carRepo.findAll().stream()
+    public List<CarResponseDto> findAll(String username) {
+        Optional<User> userByUsername = userService.getUserByUsername(username);
+
+        if(userByUsername.isEmpty()){
+            throw new UserNotFoundException("User with username: " + username + " is not found");
+        }
+
+        User user = userByUsername.get();
+
+        return carRepo.findAllByUserId(user.getId()).stream()
                 .map(mapper::toDto)
                 .toList();
     }

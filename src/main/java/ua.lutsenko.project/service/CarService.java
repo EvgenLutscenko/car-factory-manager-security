@@ -8,6 +8,6 @@ import java.util.List;
 public interface CarService {
     CarResponseDto create(CreateCarRequestDto requestDto);
 
-    List<CarResponseDto> findAll();
+    List<CarResponseDto> findAll(String username);
 
 }
