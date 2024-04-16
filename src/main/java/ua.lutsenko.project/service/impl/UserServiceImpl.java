@@ -1,6 +1,7 @@
 package ua.lutsenko.project.service.impl;
 
 import lombok.AllArgsConstructor;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import ua.lutsenko.project.dto.user.UserRequestDto;
 import ua.lutsenko.project.dto.user.UserResponseDto;
@@ -18,6 +19,7 @@ import java.util.Optional;
 public class UserServiceImpl implements UserService {
     private final UserRepo userRepo;
     private final UserMapper mapper;
+    private final PasswordEncoder passwordEncoder;
 
     @Override
     public UserResponseDto register(UserRequestDto requestDto) {
@@ -27,6 +29,7 @@ public class UserServiceImpl implements UserService {
             );
         }
         User model = mapper.toModel(requestDto);
+        model.setPassword(passwordEncoder.encode(model.getPassword()));
         User savedUser = userRepo.save(model);
         return mapper.toDto(savedUser);
     }

@@ -2,6 +2,7 @@ package ua.lutsenko.project.controller;
 
 import jakarta.validation.Valid;
 import lombok.AllArgsConstructor;
+import org.springframework.security.core.Authentication;
 import org.springframework.web.bind.annotation.*;
 import ua.lutsenko.project.dto.car.CreateCarRequestDto;
 import ua.lutsenko.project.dto.car.CarResponseDto;
@@ -25,7 +26,7 @@ public class CarsController {
     }
 
     @GetMapping
-    public List<CarResponseDto> findAll(){
-        return carService.findAll();
+    public List<CarResponseDto> findAll(Authentication authentication){
+        return carService.findAll(authentication);
     }
 }

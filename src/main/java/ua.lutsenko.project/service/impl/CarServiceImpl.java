@@ -1,6 +1,9 @@
 package ua.lutsenko.project.service.impl;
 
 import lombok.AllArgsConstructor;
+import org.hibernate.context.internal.ThreadLocalSessionContext;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 import ua.lutsenko.project.dto.car.CreateCarRequestDto;
 import ua.lutsenko.project.dto.car.CarResponseDto;
@@ -52,8 +55,9 @@ public class CarServiceImpl implements CarService {
     }
 
     @Override
-    public List<CarResponseDto> findAll() {
-        return carRepo.findAll().stream()
+    public List<CarResponseDto> findAll(Authentication authentication) {
+        User user = (User) authentication.getPrincipal();
+        return carRepo.findAllByUserId(user.getId()).stream()
                 .map(mapper::toDto)
                 .toList();
     }
